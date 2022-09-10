@@ -53,6 +53,23 @@ class TestIntegrate(unittest.TestCase):
         )
         self.assertEqual(str(result), "3 this is the assignment for SAD task 1")
 
+    def test_timeout(self):
+        blackboard = Blackboard()
+        blackboard.add_ks(KS_Type1(blackboard))
+        blackboard.add_ks(KS_Type2(blackboard))
+        blackboard.add_ks(KS_Type3(blackboard))
+        c = Controller(blackboard)
+
+        time.sleep(10)
+        result = c.encrypt("1 this is the assignment for SAD task 1")
+        self.assertEqual(str(result),
+                         "1 65 22 11 13 22 70 14 27 65 22 11 1 69 7 20 27 8 5 13 9 0 8 19 72 7 13 17 68 54 39 35 72 21 3 16 15 69 87")
+        result = c.decrypt(
+            ['1', '65', '22', '11', '13', '22', '70', '14', '27', '65', '22', '11', '1', '69', '7', '20', '27', '8',
+             '5', '13', '9', '0', '8', '19', '72', '7', '13', '17', '68', '54', '39', '35', '72', '21', '3', '16', '15',
+             '69', '87'])
+        self.assertEqual(str(result), "1 this is the assignment for SAD task 1")
+
 
 if __name__ == "__main__":
     unittest.main()
